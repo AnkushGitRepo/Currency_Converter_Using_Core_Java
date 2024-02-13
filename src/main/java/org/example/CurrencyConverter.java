@@ -14,31 +14,33 @@ public class CurrencyConverter {
         // Creating a do-while loop to ask what user want again. Until user choice to exit the program (Press 5).
         boolean loop = true;
         do{
-
+            // Displaying Options to User.
             System.out.println("\nPRESS 1 TO DISPLAY AVAILABLE CURRENCIES.");
             System.out.println("PRESS 2 TO EXCHANGE CURRENCY.");
             System.out.println("PRESS 3 TO DISPLAY EXCHANGE RATE.");
             System.out.println("PRESS 4 TO UPDATE EXCHANGE RATE(ONLY FOR DEVELOPERS).");
             System.out.print("PRESS 5 TO EXIT THE PROGRAM.\nENTER YOUR CHOICE: ");
-            int choice = scanner.nextInt();
+            int choice = scanner.nextInt(); //User is asked for choice.
 
             switch (choice) {
                 case 1:
                     // Case 1: To Display The List OF Currencies.
                     System.out.println("\nList of Currencies:");
-                    System.out.println(" 1.  US Dollar (USD)           2. Euro (EUR)              3. Japanese Yen (JPY)         4. British Pound Sterling (GBP)    5. Chinese Yuan (CNY)");
-                    System.out.println(" 6.  Australian Dollar (AUD)   7. Canadian Dollar (CAD)   8. Swiss Franc (CHF)          9. Hong Kong Dollar (HKD)         10. Indian Rupee (INR)");
-                    System.out.println("11. Singapore Dollar (SGD)    12. Swedish Krona (SEK)    13. South Korean Won (KRW)    14. Norwegian Krone (NOK)          15. New Zealand Dollar (NZD)\n");
+                    System.out.println(" 1. US Dollar (USD)                           6. Australian Dollar (AUD)              11. Singapore Dollar (SGD)  ");
+                    System.out.println(" 2. Euro (EUR)                                7. Canadian Dollar (CAD)                12. Swedish Krona (SEK)     ");
+                    System.out.println(" 3. Japanese Yen (JPY)                        8. Swiss Franc (CHF)                    13. South Korean Won (KRW)  ");
+                    System.out.println(" 4. British Pound Sterling (GBP)              9. Hong Kong Dollar (HKD)               14. Norwegian Krone (NOK)   ");
+                    System.out.println(" 5. Chinese Yuan (CNY)                       10. Indian Rupee (INR)                   15. New Zealand Dollar (NZD)");
                     break;
 
                 case 2:
                     // Case 2: To Exchange The Currencies
                     System.out.print("\nENTER THE RESPECTIVE CURRENCY CODE  YOU HAVE:      ");
                     String baseCurrency = scanner.next().toUpperCase();
-                    System.out.print("ENTER THE AMOUNT YOU WANT TO CONVERT:              ");
-                    double baseAmount = scanner.nextDouble();
                     System.out.print("ENTER THE CURRENCY CODE YOU WANT TO CONVERT INTO:  ");
                     String toConvertCurrency = scanner.next().toUpperCase();
+                    System.out.print("ENTER THE AMOUNT YOU WANT TO CONVERT:              ");
+                    double baseAmount = scanner.nextDouble();
 
                     double convertedAmount = newObj.convert(baseAmount, baseCurrency, toConvertCurrency);
                     System.out.println("CONVERTED AMOUNT = " + convertedAmount);
@@ -61,17 +63,19 @@ public class CurrencyConverter {
                     System.out.print("\nENTER YOUR DEVELOPER ID: "); // Asking Developer to enter ID
                     String developerID = scanner.next();
                     int countID = 0;
+                    // Creating a loop which iterate through User-Details Array (devDetails). After user enter his ID we are going to check that ID in devDetails array.
                     for(int i = 0 ; i < BackendWork.devDetails.length; i++) {
                         if (developerID.equals(BackendWork.devDetails[i][0])){
-                            System.out.print("ENTER YOUR DEVELOPER PASSWORD: ");
+                            System.out.print("ENTER YOUR DEVELOPER PASSWORD: "); // Asking Developer to enter Password. If ID is correct.
                             String developerPass = scanner.next();
                             int countPASS = 0;
                             for(int j = 0; j < 2; j++){
+                                // Checking if enter password for that ID is correct or not.
                                 if(developerPass.equals(BackendWork.devDetails[i][1])){
                                     newObj.changeExchangeRate();
                                     break;
                                 }
-                                else{
+                                else{;
                                     newObj.wrongPass(countPASS);
                                     countPASS++;
                                 }
@@ -87,7 +91,7 @@ public class CurrencyConverter {
                 case 5:
                     // Case 5: To Exit The Program
                     System.out.println("\n              HAVE A GREAT DAY!              ");
-                    System.out.println("THANK YOU FOR USING CURRENCY CONVERTER SYSTEM\nEXITING.....\n");
+                    System.out.println("THANK YOU FOR USING CURRENCY CONVERTER SYSTEM\n                  EXITING...\n");
                     loop = false;
                     break;
 
@@ -123,12 +127,8 @@ class BackendWork {
 
     static String[][] devDetails = {{"SARVESH0019", "A6SARVESH"}, {"ANKUSH0016", "A6ANKUSH"}, {"ADITI0001", "A6ADITI"}, {"RAJVI0008", "A6RAJVI"}, {"JAYDIP0014", "A6JAYDIP"}};
 
-    /**
-     * Returns the index of a given currency in the currency list.
-     *
-     * @param  currencyIndex  the currency to find the index of
-     * @return                the index of the currency, or -1 if not found
-     */
+
+    // THIS METHOD IS GOING TO BE USE FOR GETTING INDEX OF CURRENCIES
     static int getCurrencyIndex(String currencyIndex) {
         switch (currencyIndex) {
             case "USD": return 0;
@@ -158,6 +158,7 @@ class BackendWork {
         return baseAmount * exchangeRates[sourceCurrencyIndex][toConvertCurrencyIndex];
     }
 
+    // THIS METHOD IS GOING TO USE FOR CHANGE THE EXCHANGE RATES
     void changeExchangeRate() {
         // Asking User to enter base and toConvert currency. After that we are calling the getCurrencyIndex Method to get the index of the currency.
         System.out.print("ENTER THE BASE CURRENCY CODE THAT YOU HAVE      : ");
@@ -174,6 +175,7 @@ class BackendWork {
         exchangeRates[indexOfBase][indexOfToConvert] = scanner.nextDouble();
     }
 
+    //THIS TWO METHOD WILL ALWAYS CHECK, IS THE LOOP FULL TRAVERSED OR NOT. BEFORE PRINTING WRONG ID OR WRONG PASSWORD.
     void wrongPass(int count){
         if(count == 1){
             System.out.println("INVALID DEVELOPER PASSWORD! PLEASE TRY AGAIN");
@@ -184,7 +186,4 @@ class BackendWork {
             System.out.println("INVALID DEVELOPER ID! PLEASE TRY AGAIN");
         }
     }
-
 }
-
-
